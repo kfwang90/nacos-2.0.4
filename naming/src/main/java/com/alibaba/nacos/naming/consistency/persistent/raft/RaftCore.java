@@ -17,7 +17,6 @@
 package com.alibaba.nacos.naming.consistency.persistent.raft;
 
 import com.alibaba.nacos.api.exception.NacosException;
-import com.alibaba.nacos.api.exception.runtime.NacosRuntimeException;
 import com.alibaba.nacos.common.http.Callback;
 import com.alibaba.nacos.common.lifecycle.Closeable;
 import com.alibaba.nacos.common.model.RestResult;
@@ -26,6 +25,7 @@ import com.alibaba.nacos.common.notify.NotifyCenter;
 import com.alibaba.nacos.common.utils.ConcurrentHashSet;
 import com.alibaba.nacos.common.utils.InternetAddressUtil;
 import com.alibaba.nacos.common.utils.JacksonUtils;
+import com.alibaba.nacos.common.utils.StringUtils;
 import com.alibaba.nacos.consistency.DataOperation;
 import com.alibaba.nacos.naming.consistency.Datum;
 import com.alibaba.nacos.naming.consistency.KeyBuilder;
@@ -49,8 +49,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.alibaba.nacos.common.utils.StringUtils;
-import com.alibaba.nacos.common.utils.NumberUtils;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
@@ -158,37 +156,11 @@ public class RaftCore implements Closeable {
     @PostConstruct
     public void init() throws Exception {
         Loggers.RAFT.info("initializing Raft sub-system");
-        final long start = System.currentTimeMillis();
-        
-        raftStore.loadDatums(notifier, datums);
-        
-        setTerm(NumberUtils.toLong(raftStore.loadMeta().getProperty("term"), 0L));
-        
-        Loggers.RAFT.info("cache loaded, datum count: {}, current term: {}", datums.size(), peers.getTerm());
-        
+
         initialized = true;
-        
-        Loggers.RAFT.info("finish to load data from disk, cost: {} ms.", (System.currentTimeMillis() - start));
-        
-        masterTask = GlobalExecutor.registerMasterElection(new MasterElection());
-        heartbeatTask = GlobalExecutor.registerHeartbeat(new HeartBeat());
-        
-        versionJudgement.registerObserver(isAllNewVersion -> {
-            stopWork = isAllNewVersion;
-            if (stopWork) {
-                try {
-                    shutdown();
-                    raftListener.removeOldRaftMetadata();
-                } catch (NacosException e) {
-                    throw new NacosRuntimeException(NacosException.SERVER_ERROR, e);
-                }
-            }
-        }, 100);
-        
-        NotifyCenter.registerSubscriber(notifier);
-        
-        Loggers.RAFT.info("timer started: leader timeout ms: {}, heart-beat timeout ms: {}",
-                GlobalExecutor.LEADER_TIMEOUT_MS, GlobalExecutor.HEARTBEAT_INTERVAL_MS);
+        stopWork = true;
+
+        Loggers.RAFT.info("[RaftCore.init]手机银行默认关闭双写版本.");
     }
     
     public Map<String, ConcurrentHashSet<RecordListener>> getListeners() {

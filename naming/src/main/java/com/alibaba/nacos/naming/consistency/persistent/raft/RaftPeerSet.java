@@ -20,8 +20,8 @@ import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.common.http.Callback;
 import com.alibaba.nacos.common.lifecycle.Closeable;
 import com.alibaba.nacos.common.model.RestResult;
-import com.alibaba.nacos.common.notify.NotifyCenter;
 import com.alibaba.nacos.common.utils.JacksonUtils;
+import com.alibaba.nacos.common.utils.StringUtils;
 import com.alibaba.nacos.core.cluster.Member;
 import com.alibaba.nacos.core.cluster.MemberChangeListener;
 import com.alibaba.nacos.core.cluster.MembersChangeEvent;
@@ -33,10 +33,8 @@ import com.alibaba.nacos.sys.env.EnvUtil;
 import com.alibaba.nacos.sys.utils.ApplicationUtils;
 import org.apache.commons.collections.SortedBag;
 import org.apache.commons.collections.bag.TreeBag;
-import com.alibaba.nacos.common.utils.StringUtils;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
-
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.Collection;
@@ -79,8 +77,7 @@ public class RaftPeerSet extends MemberChangeListener implements Closeable {
     
     @PostConstruct
     public void init() {
-        NotifyCenter.registerSubscriber(this);
-        changePeers(memberManager.allMembers());
+        Loggers.RAFT.info("[RaftPeerSet.init]手机银行默认关闭双写版本.");
     }
     
     @Override

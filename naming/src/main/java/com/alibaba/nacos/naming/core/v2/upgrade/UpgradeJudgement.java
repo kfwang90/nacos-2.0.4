@@ -97,18 +97,11 @@ public class UpgradeJudgement extends Subscriber<MembersChangeEvent> {
         this.memberManager = memberManager;
         this.serviceManager = serviceManager;
         this.doubleWriteDelayTaskEngine = doubleWriteDelayTaskEngine;
-        Boolean upgraded = upgradeStates.isUpgraded();
-        upgraded = upgraded != null && upgraded;
-        boolean isStandaloneMode = EnvUtil.getStandaloneMode();
-        if (isStandaloneMode || upgraded) {
-            useGrpcFeatures.set(true);
-            useJraftFeatures.set(true);
-            all20XVersion.set(true);
-        }
-        if (!isStandaloneMode) {
-            initUpgradeChecker();
-        }
-        NotifyCenter.registerSubscriber(this);
+
+        useGrpcFeatures.set(true);
+        useJraftFeatures.set(true);
+        all20XVersion.set(true);
+        Loggers.SRV_LOG.info("[UpgradeJudgement]手机银行默认关闭双写版本.");
     }
     
     private void initUpgradeChecker() {

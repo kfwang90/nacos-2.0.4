@@ -24,6 +24,7 @@ import com.alibaba.nacos.naming.consistency.persistent.impl.BasePersistentServic
 import com.alibaba.nacos.naming.consistency.persistent.impl.PersistentServiceProcessor;
 import com.alibaba.nacos.naming.consistency.persistent.impl.StandalonePersistentServiceProcessor;
 import com.alibaba.nacos.naming.consistency.persistent.raft.RaftConsistencyServiceImpl;
+import com.alibaba.nacos.naming.misc.Loggers;
 import com.alibaba.nacos.naming.pojo.Record;
 import com.alibaba.nacos.sys.env.EnvUtil;
 import org.springframework.stereotype.Component;
@@ -56,9 +57,10 @@ public class PersistentConsistencyServiceDelegateImpl implements PersistentConsi
     }
     
     private void init() {
-        this.versionJudgement.registerObserver(isAllNewVersion -> switchNewPersistentService = isAllNewVersion, -1);
+        Loggers.SRV_LOG.info("[PersistentConsistencyServiceDelegateImpl.init]手机银行默认关闭双写版本.");
+        this.switchNewPersistentService = true;
     }
-    
+
     @Override
     public void put(String key, Record value) throws NacosException {
         switchOne().put(key, value);

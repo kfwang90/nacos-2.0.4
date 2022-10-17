@@ -20,11 +20,11 @@ import com.alibaba.nacos.api.common.Constants;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.common.utils.ConvertUtils;
 import com.alibaba.nacos.common.utils.JacksonUtils;
+import com.alibaba.nacos.common.utils.StringUtils;
 import com.alibaba.nacos.naming.consistency.ConsistencyService;
 import com.alibaba.nacos.naming.consistency.Datum;
 import com.alibaba.nacos.naming.consistency.KeyBuilder;
 import com.alibaba.nacos.naming.consistency.RecordListener;
-import com.alibaba.nacos.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -289,7 +289,7 @@ public class SwitchManager implements RecordListener<SwitchDomain> {
             }
             
             if (entry.equals(SwitchEntry.DOUBLE_WRITE_ENABLED)) {
-                switchDomain.setDoubleWriteEnabled(ConvertUtils.toBoolean(value));
+                throw new RuntimeException("[SwitchManager]手机银行默认关闭双写版本，无需再次切换.");
             }
             
             if (debug) {

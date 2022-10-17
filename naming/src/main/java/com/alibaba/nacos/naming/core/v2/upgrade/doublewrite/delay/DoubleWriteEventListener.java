@@ -24,9 +24,6 @@ import com.alibaba.nacos.naming.core.v2.event.publisher.NamingEventPublisherFact
 import com.alibaba.nacos.naming.core.v2.event.service.ServiceEvent;
 import com.alibaba.nacos.naming.core.v2.upgrade.UpgradeJudgement;
 import com.alibaba.nacos.naming.misc.Loggers;
-import com.alibaba.nacos.naming.misc.SwitchDomain;
-import com.alibaba.nacos.sys.env.EnvUtil;
-import com.alibaba.nacos.sys.utils.ApplicationUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
@@ -54,11 +51,7 @@ public class DoubleWriteEventListener extends Subscriber<ServiceEvent.ServiceCha
         this.upgradeJudgement = upgradeJudgement;
         this.doubleWriteDelayTaskEngine = doubleWriteDelayTaskEngine;
         NotifyCenter.registerSubscriber(this, NamingEventPublisherFactory.getInstance());
-        stopDoubleWrite = EnvUtil.getStandaloneMode();
-        if (!stopDoubleWrite) {
-            Thread doubleWriteEnabledChecker = new DoubleWriteEnabledChecker();
-            doubleWriteEnabledChecker.start();
-        }
+        Loggers.SRV_LOG.info("[DoubleWriteEventListener]手机银行默认关闭双写版本.");
     }
     
     @Override
@@ -145,7 +138,7 @@ public class DoubleWriteEventListener extends Subscriber<ServiceEvent.ServiceCha
             while (stillCheck) {
                 try {
                     TimeUnit.SECONDS.sleep(5);
-                    stopDoubleWrite = !ApplicationUtils.getBean(SwitchDomain.class).isDoubleWriteEnabled();
+                    stopDoubleWrite = true;
                     if (stopDoubleWrite) {
                         upgradeJudgement.stopAll();
                         stillCheck = false;

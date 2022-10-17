@@ -88,7 +88,7 @@
     </issueManagement>
     
     <properties>
-        <revision>2.1.0-SNAPSHOT</revision>
+        <revision>2.0.4</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- Compiler settings properties -->
@@ -319,43 +319,43 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.rat</groupId>
-                <artifactId>apache-rat-plugin</artifactId>
-                <version>${apache-rat-plugin.version}</version>
-                <configuration>
-                    <excludes>
-                        <exclude>.editorconfig</exclude>
-                        <exclude>.travis.yml</exclude>
-                        <exclude>CONTRIBUTING.md</exclude>
-                        <exclude>CODE_OF_CONDUCT.md</exclude>
-                        <exclude>CHANGELOG.md</exclude>
-                        <exclude>style/codeStyle.md</exclude>
-                        <exclude>REPORTING-BUGS.md</exclude>
-                        <exclude>README.md</exclude>
-                        <exclude>.github/**/*</exclude>
-                        <exclude>doc/*</exclude>
-                        <exclude>derby.log</exclude>
-                        <exclude>logs/*</exclude>
-                        <exclude>src/main/resources/static/**</exclude>
-                        <exclude>**/istio/model/**</exclude>
-                        <exclude>**/consistency/entity/**</exclude>
-                        <exclude>**/*.txt</exclude>
-                        <exclude>**/*.factories</exclude>
-                        <exclude>/console-ui/**</exclude>
-                        <exclude>**/gogo.proto</exclude>
-                        <exclude>**/any.proto</exclude>
-                    </excludes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.rat</groupId>-->
+<!--                <artifactId>apache-rat-plugin</artifactId>-->
+<!--                <version>${apache-rat-plugin.version}</version>-->
+<!--                <configuration>-->
+<!--                    <excludes>-->
+<!--                        <exclude>.editorconfig</exclude>-->
+<!--                        <exclude>.travis.yml</exclude>-->
+<!--                        <exclude>CONTRIBUTING.md</exclude>-->
+<!--                        <exclude>CODE_OF_CONDUCT.md</exclude>-->
+<!--                        <exclude>CHANGELOG.md</exclude>-->
+<!--                        <exclude>style/codeStyle.md</exclude>-->
+<!--                        <exclude>REPORTING-BUGS.md</exclude>-->
+<!--                        <exclude>README.md</exclude>-->
+<!--                        <exclude>.github/**/*</exclude>-->
+<!--                        <exclude>doc/*</exclude>-->
+<!--                        <exclude>derby.log</exclude>-->
+<!--                        <exclude>logs/*</exclude>-->
+<!--                        <exclude>src/main/resources/static/**</exclude>-->
+<!--                        <exclude>**/istio/model/**</exclude>-->
+<!--                        <exclude>**/consistency/entity/**</exclude>-->
+<!--                        <exclude>**/*.txt</exclude>-->
+<!--                        <exclude>**/*.factories</exclude>-->
+<!--                        <exclude>/console-ui/**</exclude>-->
+<!--                        <exclude>**/gogo.proto</exclude>-->
+<!--                        <exclude>**/any.proto</exclude>-->
+<!--                    </excludes>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>verify</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>check</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>${maven-resources-plugin.version}</version>
@@ -501,23 +501,23 @@
                 <maven.javadoc.skip>false</maven.javadoc.skip>
             </properties>
             
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>${maven-gpg-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
+<!--            <build>-->
+<!--                <plugins>-->
+<!--                    <plugin>-->
+<!--                        <artifactId>maven-gpg-plugin</artifactId>-->
+<!--                        <version>${maven-gpg-plugin.version}</version>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <id>sign-artifacts</id>-->
+<!--                                <phase>verify</phase>-->
+<!--                                <goals>-->
+<!--                                    <goal>sign</goal>-->
+<!--                                </goals>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                    </plugin>-->
+<!--                </plugins>-->
+<!--            </build>-->
         </profile>
         <profile>
             <!--  Run integration tests for configuration modules separately  -->
@@ -600,7 +600,7 @@
         <module>core</module>
         <module>naming</module>
         <module>address</module>
-        <module>test</module>
+<!--        <module>test</module>-->
         <module>api</module>
         <module>client</module>
         <module>example</module>

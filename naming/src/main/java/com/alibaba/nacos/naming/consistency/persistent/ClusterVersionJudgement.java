@@ -22,7 +22,7 @@ import com.alibaba.nacos.core.cluster.Member;
 import com.alibaba.nacos.core.cluster.MemberMetaDataConstants;
 import com.alibaba.nacos.core.cluster.ServerMemberManager;
 import com.alibaba.nacos.naming.misc.GlobalExecutor;
-import com.alibaba.nacos.sys.env.EnvUtil;
+import com.alibaba.nacos.naming.misc.Loggers;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -66,15 +66,8 @@ public class ClusterVersionJudgement {
     
     protected void runVersionListener() {
         // Single machine mode, do upgrade operation directly.
-        if (EnvUtil.getStandaloneMode()) {
-            notifyAllListener();
-            return;
-        }
-        try {
-            judge();
-        } finally {
-            GlobalExecutor.submitClusterVersionJudge(this::runVersionListener, TimeUnit.SECONDS.toMillis(5));
-        }
+        Loggers.SRV_LOG.info("[ClusterVersionJudgement.runVersionListener]手机银行默认关闭双写版本.");
+        notifyAllListener();
     }
     
     protected void judge() {
